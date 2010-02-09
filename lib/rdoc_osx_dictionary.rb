@@ -139,11 +139,19 @@ class RDoc::OSXDictionary
       <d:index d:value="#{name.munge}"/>
       <h1>#{fullname.munge}</h1>
       <p class="signatures">
-        <b>#{name.munge}#{params.munge}</b>
+        #{d_signatures(name, params)}
       </p>
       #{comment}
     </d:entry>
   EOD
+  end
+  
+  def d_signatures name, params
+    result = " "
+    if params.strip =~ /^\(/
+      result << "<b>#{name.munge}</b>"
+    end
+    result << "<b>#{params.munge}</b>"
   end
 
   def d_header
@@ -321,7 +329,7 @@ end
 
 class String
   def munge
-    self.gsub(/&/, '&amp;').gsub(/>/, '&gt;').gsub(/</, '&lt;').gsub(/-/, 'minus')
+    self.gsub(/&/, '&amp;').gsub(/>/, '&gt;').gsub(/</, '&lt;').gsub(/-/, '&#45;').gsub(/\n/, "<br />")
   end
 end
 

@@ -297,7 +297,7 @@ class RDoc::OSXDictionary
     # force via at_exit :(
     Gem.post_install do |i|
       at_exit do
-        return if @hooked[:install]
+        next if @hooked[:install]
         @hooked[:install] = true
         warn "updating OSX ruby + gem dictionary, if necessary"
         system cmd
@@ -306,7 +306,7 @@ class RDoc::OSXDictionary
 
     Gem.post_uninstall do |i|
       at_exit do
-        return if @hooked[:uninstall]
+        next if @hooked[:uninstall]
         @hooked[:uninstall] = true
         require 'fileutils'
         warn "nuking old ri cache to force rebuild"
